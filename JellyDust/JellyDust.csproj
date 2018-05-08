@@ -2,6 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.0.1</Version>
+    <Authors>mattiasnordqvist</Authors>
+    <Company />
+    <PackageProjectUrl>https://github.com/mattiasnordqvist/JellyDust</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/mattiasnordqvist/JellyDust.git</RepositoryUrl>
   </PropertyGroup>
 
 </Project>
