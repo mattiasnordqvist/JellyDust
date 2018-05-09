@@ -1,6 +1,6 @@
 using System.Data;
 
-namespace JellyDust.Connection
+namespace JellyDust
 {
     public interface IDbConnectionFactory
     {

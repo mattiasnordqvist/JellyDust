@@ -1,7 +1,6 @@
-using System;
 using System.Data;
 
-namespace JellyDust.Connection
+namespace JellyDust
 {
     public abstract class DbConnectionFactory : IDbConnectionFactory
     {

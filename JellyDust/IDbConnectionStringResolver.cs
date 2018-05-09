@@ -1,4 +1,4 @@
-namespace JellyDust.Connection
+namespace JellyDust
 {
     public interface IDbConnectionStringResolver
     {

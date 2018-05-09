@@ -1,33 +1,32 @@
 using System.Data;
 
-using JellyDust.Connection;
 
-namespace JellyDust.Transaction
+namespace JellyDust
 {
-    public class JellyTransaction : IJellyTransaction
+    public class Transaction : ITransaction
     {
         private readonly IDbTransactionFactory _databaseTransactionFactory;
 
-        private readonly IJellyConnection _connectionSession;
+        private readonly IConnection _connectionSession;
 
         private IDbTransaction _databaseTransaction;
 
-        public JellyTransaction(IDbTransactionFactory databaseTransactionFactory, IJellyConnection connectionSession)
+        public Transaction(IDbTransactionFactory databaseTransactionFactory, IConnection connectionSession)
         {
             _databaseTransactionFactory = databaseTransactionFactory;
             _connectionSession = connectionSession;
         }
 
-        public IDbConnection Connection => _connectionSession.Connection;
+        public IDbConnection DbConnection => _connectionSession.DbConnection;
 
-        public IDbTransaction Transaction
+        public IDbTransaction DbTransaction
         {
             get
             {
                 if (_databaseTransaction == null)
                 {
-                    _databaseTransaction = _databaseTransactionFactory.OpenTransaction(Connection);
-                    _connectionSession.SetCurrentTransaction(_databaseTransaction);
+                    _databaseTransaction = _databaseTransactionFactory.OpenTransaction(DbConnection);
+                    _connectionSession.SetCurrentDbTransaction(_databaseTransaction);
                 }
 
                 return _databaseTransaction;
@@ -48,7 +47,7 @@ namespace JellyDust.Transaction
         public void Commit()
         {
             _databaseTransaction?.Commit();
-            _connectionSession.SetCurrentTransaction(null);
+            _connectionSession.SetCurrentDbTransaction(null);
         }
 
         public void Rollback()

@@ -1,6 +1,6 @@
 using System.Data;
 
-namespace JellyDust.Transaction
+namespace JellyDust
 {
     public interface IDbTransactionFactory
     {

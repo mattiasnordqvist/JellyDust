@@ -1,11 +1,9 @@
 using System;
 using System.Data;
 
-using JellyDust.Transaction;
-
-namespace JellyDust.Connection
+namespace JellyDust
 {
-    public class JellyConnection : IJellyConnection
+    public class Connection : IConnection
     {
         private readonly IDbConnectionFactory _connectionFactory;
 
@@ -15,13 +13,13 @@ namespace JellyDust.Connection
 
         private IDbTransaction _currentTransaction;
 
-        public JellyConnection(IDbConnectionFactory connectionFactory, IDbTransactionFactory transactionFactory)
+        public Connection(IDbConnectionFactory connectionFactory, IDbTransactionFactory transactionFactory)
         {
             _connectionFactory = connectionFactory;
             _transactionFactory = transactionFactory;
         }
 
-        public IDbConnection Connection => _connection ?? 
+        public IDbConnection DbConnection => _connection ?? 
             (_connection = _connectionFactory.OpenNew());
 
         public void Dispose()
@@ -33,19 +31,19 @@ namespace JellyDust.Connection
             }
         }
 
-        public IDbTransaction GetCurrentTransaction()
+        public IDbTransaction GetCurrentDbTransaction()
         {
             return _currentTransaction;
         }
 
-        public void SetCurrentTransaction(IDbTransaction databaseTransaction)
+        public void SetCurrentDbTransaction(IDbTransaction databaseTransaction)
         {
             _currentTransaction = databaseTransaction;
         }
 
         public void RunInTransaction(Action<IDbTransaction> action)
         {
-            using (var transaction = _transactionFactory.OpenTransaction(Connection))
+            using (var transaction = _transactionFactory.OpenTransaction(DbConnection))
             {
                 action(transaction);
                 transaction.Commit();
@@ -54,7 +52,7 @@ namespace JellyDust.Connection
 
         public T RunInTransaction<T>(Func<IDbTransaction, T> action)
         {
-            using (var transaction = _transactionFactory.OpenTransaction(Connection))
+            using (var transaction = _transactionFactory.OpenTransaction(DbConnection))
             {
                 var result = action(transaction);
                 transaction.Commit();

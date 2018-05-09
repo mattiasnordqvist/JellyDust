@@ -1,22 +1,21 @@
-using JellyDust.Transaction;
 
-namespace JellyDust.Connection
+namespace JellyDust
 {
-    public class JellyConnectionUnitOfWork : IJellyConnectionUnitOfWork
+    public class ConnectionUnitOfWork : IConnectionUnitOfWork
     {
         private readonly IDbConnectionFactory _connectionFactory;
 
         private readonly IDbTransactionFactory _transactionFactory;
 
-        private IJellyConnection _connectionSession;
+        private IConnection _connectionSession;
 
-        public JellyConnectionUnitOfWork(IDbConnectionFactory connectionFactory, IDbTransactionFactory transactionFactory)
+        public ConnectionUnitOfWork(IDbConnectionFactory connectionFactory, IDbTransactionFactory transactionFactory)
         {
             _connectionFactory = connectionFactory;
             _transactionFactory = transactionFactory;
         }
 
-        public IJellyConnection Session => _connectionSession ?? (_connectionSession = new JellyConnection(_connectionFactory, _transactionFactory));
+        public IConnection Session => _connectionSession ?? (_connectionSession = new Connection(_connectionFactory, _transactionFactory));
 
         public bool IsDisposed { get; private set; }
 

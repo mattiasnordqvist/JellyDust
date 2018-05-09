@@ -1,18 +1,17 @@
 using System;
 
-using JellyDust.Connection;
 
-namespace JellyDust.Transaction
+namespace JellyDust
 {
-    public class JellyTransactionUnitOfWork : IJellyTransactionUnitOfWork
+    public class TransactionUnitOfWork : ITransactionUnitOfWork
     {
         private readonly IDbTransactionFactory _transactionFactory;
 
-        private readonly IJellyConnectionUnitOfWork _connectionUnitOfWork;
+        private readonly IConnectionUnitOfWork _connectionUnitOfWork;
 
-        private IJellyTransaction _session;
+        private ITransaction _session;
 
-        public JellyTransactionUnitOfWork(IDbTransactionFactory transactionFactory, IJellyConnectionUnitOfWork connectionUnitOfWork)
+        public TransactionUnitOfWork(IDbTransactionFactory transactionFactory, IConnectionUnitOfWork connectionUnitOfWork)
         {
             _transactionFactory = transactionFactory;
             _connectionUnitOfWork = connectionUnitOfWork;
@@ -20,7 +19,7 @@ namespace JellyDust.Transaction
 
         public bool IsDisposed { get; private set; }
 
-        public IJellyTransaction Session => _session ?? (_session = new JellyTransaction(_transactionFactory, _connectionUnitOfWork.Session));
+        public ITransaction Session => _session ?? (_session = new Transaction(_transactionFactory, _connectionUnitOfWork.Session));
         public void Dispose()
         {
             if (IsDisposed)
