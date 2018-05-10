@@ -3,23 +3,31 @@ using System;
 
 namespace JellyDust
 {
-    public class TransactionUnitOfWork : ITransactionUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly IDbTransactionFactory _transactionFactory;
 
-        private readonly IConnectionUnitOfWork _connectionUnitOfWork;
+        private readonly IConnection _connection;
 
         private ITransaction _session;
 
-        public TransactionUnitOfWork(IDbTransactionFactory transactionFactory, IConnectionUnitOfWork connectionUnitOfWork)
+        public UnitOfWork(IDbTransactionFactory transactionFactory, IConnection connection)
         {
             _transactionFactory = transactionFactory;
-            _connectionUnitOfWork = connectionUnitOfWork;
+            _connection = connection;
         }
 
         public bool IsDisposed { get; private set; }
 
-        public ITransaction Session => _session ?? (_session = new Transaction(_transactionFactory, _connectionUnitOfWork.Session));
+        public ITransaction Session
+        {
+            get
+            {
+                VerifyNotDisposed();
+                return _session ?? (_session = new Transaction(_transactionFactory, _connection));
+            }
+        }
+
         public void Dispose()
         {
             if (IsDisposed)
@@ -33,7 +41,7 @@ namespace JellyDust
                 _session = null;
             }
 
-            _connectionUnitOfWork?.Dispose();
+            _connection?.Dispose();
             IsDisposed = true;
         }
 

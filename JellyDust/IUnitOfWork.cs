@@ -1,6 +1,6 @@
 namespace JellyDust
 {
-    public interface ITransactionUnitOfWork
+    public interface IUnitOfWork
     {
         bool IsDisposed { get; }
         void Dispose();

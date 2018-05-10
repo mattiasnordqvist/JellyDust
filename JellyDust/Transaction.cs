@@ -7,17 +7,17 @@ namespace JellyDust
     {
         private readonly IDbTransactionFactory _databaseTransactionFactory;
 
-        private readonly IConnection _connectionSession;
+        private readonly IConnection _connection;
 
         private IDbTransaction _databaseTransaction;
 
-        public Transaction(IDbTransactionFactory databaseTransactionFactory, IConnection connectionSession)
+        public Transaction(IDbTransactionFactory databaseTransactionFactory, IConnection connection)
         {
             _databaseTransactionFactory = databaseTransactionFactory;
-            _connectionSession = connectionSession;
+            _connection = connection;
         }
 
-        public IDbConnection DbConnection => _connectionSession.DbConnection;
+        public IDbConnection DbConnection => _connection.DbConnection;
 
         public IDbTransaction DbTransaction
         {
@@ -26,7 +26,7 @@ namespace JellyDust
                 if (_databaseTransaction == null)
                 {
                     _databaseTransaction = _databaseTransactionFactory.OpenTransaction(DbConnection);
-                    _connectionSession.SetCurrentDbTransaction(_databaseTransaction);
+                    _connection.SetCurrentDbTransaction(_databaseTransaction);
                 }
 
                 return _databaseTransaction;
@@ -41,13 +41,13 @@ namespace JellyDust
         public void Dispose()
         {
             _databaseTransaction?.Dispose();
-            _connectionSession?.Dispose();
+            _connection?.Dispose();
         }
 
         public void Commit()
         {
             _databaseTransaction?.Commit();
-            _connectionSession.SetCurrentDbTransaction(null);
+            _connection.SetCurrentDbTransaction(null);
         }
 
         public void Rollback()
