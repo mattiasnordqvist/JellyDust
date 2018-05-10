@@ -21,7 +21,7 @@ namespace JellyDust
             get
             {
                 VerifyNotDisposed();
-                return _connection ?? (_connection = _connectionFactory.OpenNew());
+                return _connection ?? (_connection = _connectionFactory.CreateOpenConnection());
             }
         }
 
