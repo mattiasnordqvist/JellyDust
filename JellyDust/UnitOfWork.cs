@@ -6,15 +6,15 @@ namespace JellyDust
     public class UnitOfWork : IUnitOfWork
     {
         private readonly IDbTransactionFactory _transactionFactory;
+        private readonly IDbConnectionFactory _connectionFactory;
 
-        private readonly IConnection _connection;
-
+        private IConnection _connection;
         private ITransaction _session;
 
-        public UnitOfWork(IDbTransactionFactory transactionFactory, IConnection connection)
+        public UnitOfWork(IDbTransactionFactory transactionFactory, IDbConnectionFactory connectionFactory)
         {
             _transactionFactory = transactionFactory;
-            _connection = connection;
+            _connectionFactory = connectionFactory;
         }
 
         public bool IsDisposed { get; private set; }
@@ -23,7 +23,8 @@ namespace JellyDust
         {
             get
             {
-                return _connection;
+                VerifyNotDisposed();
+                return _connection ?? (_connection = new Connection(_connectionFactory));
             }
         }
 
@@ -32,7 +33,7 @@ namespace JellyDust
             get
             {
                 VerifyNotDisposed();
-                return _session ?? (_session = new Transaction(_transactionFactory, _connection));
+                return _session ?? (_session = new Transaction(_transactionFactory, Connection));
             }
         }
 
