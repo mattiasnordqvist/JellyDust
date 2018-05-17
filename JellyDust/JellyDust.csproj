@@ -3,13 +3,14 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.5</Version>
+    <Version>0.0.6</Version>
     <Authors>mattiasnordqvist</Authors>
     <Company />
     <PackageProjectUrl>https://github.com/mattiasnordqvist/JellyDust</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mattiasnordqvist/JellyDust.git</RepositoryUrl>
-    <AssemblyVersion>0.0.5.0</AssemblyVersion>
+    <AssemblyVersion>0.0.6.0</AssemblyVersion>
     <FileVersion>0.0.5.0</FileVersion>
+    <PackageIconUrl>https://raw.githubusercontent.com/mattiasnordqvist/JellyDust/master/icon.png</PackageIconUrl>
   </PropertyGroup>
 
 </Project>

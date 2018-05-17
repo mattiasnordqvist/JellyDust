@@ -6,7 +6,7 @@ namespace JellyDust.Dapper
 {
     public static class DapperGetExtensions
     {
-        public static async Task<T> Get<T>(this ITransaction @this, string sql, object param = null, int? commandTimeout = null, CommandType? commandType = null)
+        public static async Task<T> GetAsync<T>(this ITransaction @this, string sql, object param = null, int? commandTimeout = null, CommandType? commandType = null)
         {
             var results = await @this.QueryAsync<T>(sql, param, commandTimeout, commandType);
             if (results.Count() == 0)
@@ -19,7 +19,7 @@ namespace JellyDust.Dapper
             }
         }
 
-        public static async Task<T> Get<T>(this IConnection @this, string sql, object param = null, int? commandTimeout = null, CommandType? commandType = null) {
+        public static async Task<T> GetAsync<T>(this IConnection @this, string sql, object param = null, int? commandTimeout = null, CommandType? commandType = null) {
             var results = await @this.QueryAsync<T>(sql, param, commandTimeout, commandType);
             if (results.Count() == 0)
             {
