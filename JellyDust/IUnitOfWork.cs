@@ -7,5 +7,6 @@ namespace JellyDust
         void Commit();
         void Rollback();
         ITransaction Session { get; }
+        IConnection Connection { get; }
     }
 }

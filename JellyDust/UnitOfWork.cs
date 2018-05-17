@@ -19,6 +19,14 @@ namespace JellyDust
 
         public bool IsDisposed { get; private set; }
 
+        public IConnection Connection
+        {
+            get
+            {
+                return _connection;
+            }
+        }
+
         public ITransaction Session
         {
             get
