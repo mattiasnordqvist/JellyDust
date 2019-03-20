@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JellyDust", "JellyDust\JellyDust.csproj", "{A710B199-928E-4EC7-BA3D-FFFE28E9BD34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JellyDust.Dapper", "JellyDust.Dapper\JellyDust.Dapper.csproj", "{F1DBA1D0-A4A6-465F-BCCB-D0E622F8D1D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JellyDust.Dapper", "JellyDust.Dapper\JellyDust.Dapper.csproj", "{F1DBA1D0-A4A6-465F-BCCB-D0E622F8D1D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JellyDust.Tests", "JellyDust.Tests\JellyDust.Tests.csproj", "{AA293BC0-76D1-4B9D-B462-B188DD06ABEB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{F1DBA1D0-A4A6-465F-BCCB-D0E622F8D1D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1DBA1D0-A4A6-465F-BCCB-D0E622F8D1D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1DBA1D0-A4A6-465F-BCCB-D0E622F8D1D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA293BC0-76D1-4B9D-B462-B188DD06ABEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA293BC0-76D1-4B9D-B462-B188DD06ABEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA293BC0-76D1-4B9D-B462-B188DD06ABEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA293BC0-76D1-4B9D-B462-B188DD06ABEB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

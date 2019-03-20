@@ -1,12 +1,13 @@
+using System;
+
 namespace JellyDust
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
         bool IsDisposed { get; }
-        void Dispose();
         void Commit();
         void Rollback();
-        ITransaction Session { get; }
+        ITransaction Transaction { get; }
         IConnection Connection { get; }
     }
 }

@@ -11,5 +11,6 @@ namespace JellyDust
         void SetCurrentDbTransaction(IDbTransaction databaseTransaction);
 
         IDbTransaction GetCurrentDbTransaction();
+        void VerifyNotDisposed();
     }
 }

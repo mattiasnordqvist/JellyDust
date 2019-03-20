@@ -1,3 +1,4 @@
+using System;
 using System.Data;
 
 
@@ -23,6 +24,7 @@ namespace JellyDust
         {
             get
             {
+                VerifyNotDisposed();
                 if (_databaseTransaction == null)
                 {
                     _databaseTransaction = _databaseTransactionFactory.OpenTransaction(DbConnection);
@@ -40,8 +42,15 @@ namespace JellyDust
 
         public void Dispose()
         {
+            if (IsDisposed)
+            {
+                return;
+            }
+
+            _connection?.SetCurrentDbTransaction(null);
             _databaseTransaction?.Dispose();
-            _connection?.Dispose();
+
+            IsDisposed = true;
         }
 
         public void Commit()
@@ -54,5 +63,15 @@ namespace JellyDust
         {
             _databaseTransaction?.Rollback();
         }
+
+        public void VerifyNotDisposed()
+        {
+            if (IsDisposed)
+            {
+                throw new InvalidOperationException("The Transaction has been disposed and can no longer be used");
+            }
+        }
+
+        public bool IsDisposed { get; private set; }
     }
 }
