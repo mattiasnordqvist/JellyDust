@@ -38,11 +38,7 @@ namespace JellyDust
             get
             {
                 VerifyNotDisposed();
-                if (_transaction != null)
-                {
-                    _transaction.VerifyNotDisposed();
-                }
-
+                _transaction?.VerifyNotDisposed();
                 return _transaction ?? (_transaction = new Transaction(_transactionFactory, Connection));
             }
         }
