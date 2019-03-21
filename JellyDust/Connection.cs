@@ -34,16 +34,13 @@ namespace JellyDust
                 return;
             }
 
-            if (HasConnection())
-            {
-                _connection.Dispose();
-                _connection = null;
-            }
+            _connection?.Dispose();
+            _connection = null;
 
             IsDisposed = true;
         }
 
-        private void VerifyNotDisposed()
+        public void VerifyNotDisposed()
         {
             if (IsDisposed)
             {
@@ -58,12 +55,21 @@ namespace JellyDust
 
         public IDbTransaction GetCurrentDbTransaction()
         {
+            VerifyNotDisposed();
             return _currentTransaction;
         }
 
         public void SetCurrentDbTransaction(IDbTransaction databaseTransaction)
         {
-            _currentTransaction = databaseTransaction;
+            if (databaseTransaction == null)
+            {
+                _currentTransaction = null;
+            }
+            else
+            {
+                VerifyNotDisposed();
+                _currentTransaction = databaseTransaction;
+            }
         }
     }
 }

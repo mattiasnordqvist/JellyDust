@@ -9,7 +9,7 @@ namespace JellyDust
         private readonly IDbConnectionFactory _connectionFactory;
 
         private IConnection _connection;
-        private ITransaction _session;
+        private ITransaction _transaction;
 
         public UnitOfWork(IDbTransactionFactory transactionFactory, IDbConnectionFactory connectionFactory)
         {
@@ -24,16 +24,22 @@ namespace JellyDust
             get
             {
                 VerifyNotDisposed();
+                if (_connection != null)
+                {
+                    _connection.VerifyNotDisposed();
+                }
+
                 return _connection ?? (_connection = new Connection(_connectionFactory));
             }
         }
 
-        public ITransaction Session
+        public ITransaction Transaction
         {
             get
             {
                 VerifyNotDisposed();
-                return _session ?? (_session = new Transaction(_transactionFactory, Connection));
+                _transaction?.VerifyNotDisposed();
+                return _transaction ?? (_transaction = new Transaction(_transactionFactory, Connection));
             }
         }
 
@@ -43,13 +49,9 @@ namespace JellyDust
             {
                 return;
             }
-            
-            if (HasSession())
-            {
-                _session.Dispose();
-                _session = null;
-            }
 
+            _transaction?.Dispose();
+            _transaction = null;
             _connection?.Dispose();
             IsDisposed = true;
         }
@@ -57,38 +59,31 @@ namespace JellyDust
         public void Commit()
         {
             VerifyNotDisposed();
-
-            if (HasSession())
-            {
-                _session.Commit();
-            }
-
-            Dispose();
+            _transaction?.Commit();
         }
 
         public void Rollback()
         {
             VerifyNotDisposed();
-
-            if (HasSession())
-            {
-                _session.Rollback();
-            }
-
-            Dispose();
+            _transaction?.Rollback();
         }
 
         private void VerifyNotDisposed()
         {
             if (IsDisposed)
             {
-                throw new InvalidOperationException("The Transaction Unit of Work has been disposed and can no longer be used");
+                throw new InvalidOperationException("The Unit of Work has been disposed and can no longer be used");
             }
         }
-     
-        private bool HasSession()
+
+        public bool HasTransaction()
         {
-            return _session != null;
+            return _transaction != null;
+        }
+
+        public bool HasConnection()
+        {
+            return _connection != null;
         }
     }
 }
