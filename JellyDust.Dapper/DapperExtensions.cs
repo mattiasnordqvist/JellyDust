@@ -59,6 +59,11 @@ namespace JellyDust.Dapper
         public static async Task<T> QueryFirstOrDefaultAsync<T>(this IDbTransaction @this, string sql, object param = null, bool buffered = true, int? commandTimeout = null, CommandType? commandType = null) =>
             await @this.Connection.QueryFirstOrDefaultAsync<T>(sql, param, @this, commandTimeout, commandType);
 
+        public static async Task<T> QuerySingleAsync<T>(this IDbTransaction @this, string sql, object param = null, bool buffered = true, int? commandTimeout = null, CommandType? commandType = null) =>
+            await @this.Connection.QuerySingleAsync<T>(sql, param, @this, commandTimeout, commandType);
+
+        public static async Task<T> QuerySingleOrDefaultAsync<T>(this IDbTransaction @this, string sql, object param = null, bool buffered = true, int? commandTimeout = null, CommandType? commandType = null) =>
+            await @this.Connection.QuerySingleOrDefaultAsync<T>(sql, param, @this, commandTimeout, commandType);
 
 
         public static async Task<int> ExecuteAsync(this IConnection @this, string sql, object param = null, int? commandTimeout = null, CommandType? commandType = null) =>
@@ -84,5 +89,12 @@ namespace JellyDust.Dapper
 
         public static async Task<T> QueryFirstOrDefaultAsync<T>(this IConnection @this, string sql, object param = null, bool buffered = true, int? commandTimeout = null, CommandType? commandType = null) =>
            await @this.DbConnection.QueryFirstOrDefaultAsync<T>(sql, param, @this.GetCurrentDbTransaction(), commandTimeout, commandType);
+
+        public static async Task<T> QuerySingleAsync<T>(this IConnection @this, string sql, object param = null, bool buffered = true, int? commandTimeout = null, CommandType? commandType = null) =>
+            await @this.DbConnection.QuerySingleAsync<T>(sql, param, @this.GetCurrentDbTransaction(), commandTimeout, commandType);
+
+        public static async Task<T> QuerySingleOrDefaultAsync<T>(this IConnection @this, string sql, object param = null, bool buffered = true, int? commandTimeout = null, CommandType? commandType = null) =>
+           await @this.DbConnection.QuerySingleOrDefaultAsync<T>(sql, param, @this.GetCurrentDbTransaction(), commandTimeout, commandType);
+
     }
 }
